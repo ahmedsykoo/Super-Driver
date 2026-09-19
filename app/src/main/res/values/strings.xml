@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- Arabic is the default language of the app. -->
+<resources>
+    <string name="app_name">سوبر درايفر</string>
+
+    <string name="accessibility_service_label">قارئ عروض أوبر</string>
+    <string name="accessibility_service_description">يقرأ عرض الرحلة الظاهر على شاشة Uber Driver ويحسب السعر لكل كيلومتر فقط. لا يجمع بيانات ولا يتصل بالإنترنت.</string>
+
+    <!-- Setup -->
+    <string name="status_title">حالة التشغيل</string>
+    <string name="status_accessibility">خدمة الوصول</string>
+    <string name="status_overlay">إذن العرض فوق التطبيقات</string>
+    <string name="state_on">مفعّل</string>
+    <string name="state_off">غير مفعّل</string>
+    <string name="action_enable_accessibility">تفعيل خدمة الوصول</string>
+    <string name="action_enable_overlay">السماح بالعرض فوق التطبيقات</string>
+    <string name="setup_hint">فعّل الإذنين، ثم افتح Uber Driver. عند ظهور عرض رحلة ستظهر النتيجة فوق الشاشة تلقائيًا.</string>
+
+    <!-- Language -->
+    <string name="section_language">لغة التطبيق</string>
+    <string name="lang_arabic">العربية</string>
+    <string name="lang_english">English</string>
+
+    <!-- Thresholds -->
+    <string name="section_thresholds">حدود التقييم</string>
+    <string name="threshold_good_label">مناسب عند (ج.م/كم)</string>
+    <string name="threshold_near_label">قريب عند (ج.م/كم)</string>
+    <string name="action_save">حفظ</string>
+    <string name="msg_saved">تم الحفظ</string>
+    <string name="msg_invalid_thresholds">أدخل قيمًا صحيحة: حد \"مناسب\" يجب أن يكون أكبر من حد \"قريب\" وأكبر من صفر.</string>
+
+    <!-- Options -->
+    <string name="section_options">خيارات القراءة</string>
+    <string name="option_overlay">إظهار النافذة العائمة</string>
+    <string name="option_ocr">استخدام تصوير الشاشة عند تعذّر قراءة النصوص</string>
+    <string name="option_ocr_note">ملاحظة: القراءة بالصور تدعم الأرقام والإنجليزية فقط، لذلك تُستخدم كخطة بديلة.</string>
+
+    <!-- Manual test -->
+    <string name="section_test">تجربة التحليل</string>
+    <string name="test_hint">اكتب أو الصق نصوص عرض رحلة — سطر لكل نص — لاختبار التحليل بدون فتح أوبر.</string>
+    <string name="action_analyze">حلّل</string>
+    <string name="test_result_price">السعر: %1$s ج.م</string>
+    <string name="test_result_distance">المسافة: %1$s كم</string>
+    <string name="test_result_rate">السعر لكل كم: %1$s ج.م/كم</string>
+    <string name="test_result_verdict">النتيجة: %1$s</string>
+    <string name="test_result_nothing">لم يتم العثور على سعر بالجنيه ومسافة بالكيلومتر في النص.</string>
+
+    <!-- Units and verdicts -->
+    <string name="unit_egp">ج.م</string>
+    <string name="unit_km">كم</string>
+    <string name="unit_egp_per_km">ج.م/كم</string>
+    <string name="verdict_suitable">مناسب</string>
+    <string name="verdict_near">قريب</string>
+    <string name="verdict_not_suitable">غير مناسب</string>
+
+    <!-- Overlay -->
+    <string name="overlay_title">SUPER DRIVER</string>
+    <string name="overlay_waiting">في انتظار عرض رحلة…</string>
+    <string name="overlay_price_label">السعر</string>
+    <string name="overlay_distance_label">المسافة</string>
+    <string name="overlay_pickup_label">حتى الراكب</string>
+    <string name="overlay_trip_label">الرحلة</string>
+    <string name="overlay_refresh">تحديث</string>
+    <string name="overlay_close">إخفاء</string>
+
+    <!-- How it works -->
+    <string name="how_title">كيف يعمل</string>
+    <string name="how_body">١. يقرأ التطبيق نصوص شاشة Uber Driver عبر خدمة الوصول، أو عبر تصوير الشاشة عند الحاجة.\n٢. يستخرج السعر بالجنيه المصري والمسافة بالكيلومتر.\n٣. يحسب: السعر ÷ المسافة.\n٤. يعرض واحدة فقط من: مناسب، قريب، غير مناسب.\n\nلا يوجد سجل رحلات، ولا إحصائيات، ولا خرائط، ولا اتصال بالإنترنت.</string>
+</resources>

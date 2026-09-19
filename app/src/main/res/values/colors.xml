@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="background">#FF121417</color>
+    <color name="surface">#FF1E2227</color>
+    <color name="surface_border">#FF2C3239</color>
+
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#FFA9B2C0</color>
+
+    <color name="accent">#FF4CAF50</color>
+    <color name="verdict_good">#FF4CAF50</color>
+    <color name="verdict_near">#FFF9A825</color>
+    <color name="verdict_bad">#FFE53935</color>
+
+    <color name="overlay_background">#E61B1F24</color>
+</resources>

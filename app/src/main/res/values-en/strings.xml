@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Super Driver</string>
+
+    <string name="accessibility_service_label">Uber offer reader</string>
+    <string name="accessibility_service_description">Reads the trip offer shown on the Uber Driver screen and calculates the price per kilometre only. It collects no data and uses no internet connection.</string>
+
+    <!-- Setup -->
+    <string name="status_title">Status</string>
+    <string name="status_accessibility">Accessibility service</string>
+    <string name="status_overlay">Draw over other apps</string>
+    <string name="state_on">Enabled</string>
+    <string name="state_off">Disabled</string>
+    <string name="action_enable_accessibility">Enable accessibility service</string>
+    <string name="action_enable_overlay">Allow drawing over other apps</string>
+    <string name="setup_hint">Enable both permissions, then open Uber Driver. When a trip offer appears, the result shows above the screen automatically.</string>
+
+    <!-- Language -->
+    <string name="section_language">App language</string>
+    <string name="lang_arabic">العربية</string>
+    <string name="lang_english">English</string>
+
+    <!-- Thresholds -->
+    <string name="section_thresholds">Verdict thresholds</string>
+    <string name="threshold_good_label">Suitable at (EGP/km)</string>
+    <string name="threshold_near_label">Close at (EGP/km)</string>
+    <string name="action_save">Save</string>
+    <string name="msg_saved">Saved</string>
+    <string name="msg_invalid_thresholds">Enter valid values: the \"suitable\" threshold must be greater than the \"close\" one and greater than zero.</string>
+
+    <!-- Options -->
+    <string name="section_options">Reading options</string>
+    <string name="option_overlay">Show the floating card</string>
+    <string name="option_ocr">Use a screenshot when texts cannot be read</string>
+    <string name="option_ocr_note">Note: screenshot reading supports digits and English only, so it is used as a fallback.</string>
+
+    <!-- Manual test -->
+    <string name="section_test">Test the analysis</string>
+    <string name="test_hint">Type or paste the texts of a trip offer — one per line — to test the analysis without opening Uber.</string>
+    <string name="action_analyze">Analyze</string>
+    <string name="test_result_price">Price: %1$s EGP</string>
+    <string name="test_result_distance">Distance: %1$s km</string>
+    <string name="test_result_rate">Price per km: %1$s EGP/km</string>
+    <string name="test_result_verdict">Verdict: %1$s</string>
+    <string name="test_result_nothing">No EGP price together with a distance in km was found in the text.</string>
+
+    <!-- Units and verdicts -->
+    <string name="unit_egp">EGP</string>
+    <string name="unit_km">km</string>
+    <string name="unit_egp_per_km">EGP/km</string>
+    <string name="verdict_suitable">Suitable</string>
+    <string name="verdict_near">Close</string>
+    <string name="verdict_not_suitable">Not suitable</string>
+
+    <!-- Overlay -->
+    <string name="overlay_title">SUPER DRIVER</string>
+    <string name="overlay_waiting">Waiting for a trip offer…</string>
+    <string name="overlay_price_label">Price</string>
+    <string name="overlay_distance_label">Distance</string>
+    <string name="overlay_pickup_label">To rider</string>
+    <string name="overlay_trip_label">Trip</string>
+    <string name="overlay_refresh">Refresh</string>
+    <string name="overlay_close">Hide</string>
+
+    <!-- How it works -->
+    <string name="how_title">How it works</string>
+    <string name="how_body">1. The app reads the texts of the Uber Driver screen through the accessibility service, or through a screenshot when needed.\n2. It extracts the price in Egyptian pounds and the distance in kilometres.\n3. It calculates: price ÷ distance.\n4. It shows exactly one of: suitable, close, not suitable.\n\nNo trip history, no statistics, no maps and no internet connection.</string>
+</resources>
