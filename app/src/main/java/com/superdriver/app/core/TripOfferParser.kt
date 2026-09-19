@@ -87,8 +87,14 @@ object TripOfferParser {
         """(?i)^(?:كيلومترات|كيلومتر|كيلو|كم|kms|km|kilometers|kilometres|kilometer|kilometre|أمتار|مترات|متر|م|meters|metres|meter|metre|mtrs|mtr)$"""
     )
 
-    /** Lines produced by our own overlay (they can leak into an OCR pass). */
-    private val OWN_OVERLAY = Regex("""(?i)(super ?driver|سوبر درايفر|ج\.م/كم|egp/km|في انتظار|waiting for)""")
+    /**
+     * Lines produced by our own overlay: they can leak into an OCR pass and
+     * must never be read as an offer. Matched on the raw text as well, because
+     * the OCR digit fix turns "Super Driver" into "5uper Driver".
+     */
+    private val OWN_OVERLAY = Regex(
+        """(?i)(super ?driver|سوبر درايفر|ج\.م/كم|egp/km|في انتظار|waiting for|مناسب|suitable)"""
+    )
 
     /** Order in which split tokens are re-attached. See [mergeSplitTokens]. */
     private enum class MergeRule {
@@ -111,6 +117,7 @@ object TripOfferParser {
     fun parse(rawLines: List<String>, source: ReadSource = ReadSource.ACCESSIBILITY): TripOffer? {
         val prepared = rawLines
             .asSequence()
+            .filterNot { OWN_OVERLAY.containsMatchIn(it) }
             .map { if (source == ReadSource.OCR) TextNormalizer.fixOcrDigits(it) else it }
             .map { TextNormalizer.normalize(it) }
             .filter { it.isNotBlank() }
@@ -210,8 +217,12 @@ object TripOfferParser {
             }
         }
 
+        // Ascending comparator + maxWithOrNull: an explicit "fare" line wins,
+        // otherwise the biggest plausible amount on the card wins.
+        // (A descending comparator with maxWithOrNull returns the SMALLEST
+        // element, which is exactly what we do not want here.)
         val best = hits.maxWithOrNull(
-            compareByDescending<PriceHit> { it.namedFare }.thenByDescending { it.value }
+            compareBy<PriceHit> { it.namedFare }.thenBy { it.value }
         )
         if (best != null) return best.value
 

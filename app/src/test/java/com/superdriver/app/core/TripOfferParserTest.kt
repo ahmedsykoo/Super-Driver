@@ -109,6 +109,24 @@ class TripOfferParserTest {
         assertKm(trip, 2.5, 8.5)
     }
 
+    /**
+     * Regression: several currency numbers can be on the card at once. An
+     * explicit fare wins, and otherwise the biggest plausible amount wins —
+     * never the smallest.
+     */
+    @Test
+    fun namedFareWinsOverOtherAmounts() {
+        val trip = offer("Fare 60 EGP", "Previous trip 300 EGP", "2 km", "8 km")
+        assertEquals(60.0, trip.priceEgp, 0.01)
+    }
+
+    @Test
+    fun whenNothingIsNamedTheBiggestAmountWins() {
+        val trip = offer("EGP 85.50", "2.5 km", "8.5 km", "Super Driver", "18.75 EGP/km", "SUITABLE")
+        assertEquals(85.50, trip.priceEgp, 0.01)
+        assertKm(trip, 2.5, 8.5)
+    }
+
     @Test
     fun arabicUnitBeforeValue() {
         val trip = offer("ج.م 150", "كم 2.5", "كم 8.5")
