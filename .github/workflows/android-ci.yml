@@ -11,6 +11,10 @@ jobs:
     name: Unit tests + debug APK
     runs-on: ubuntu-latest
 
+    env:
+      ANDROID_HOME: /usr/local/lib/android/sdk
+      ANDROID_SDK_ROOT: /usr/local/lib/android/sdk
+
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -21,8 +25,21 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
+      - name: Show the preinstalled Android SDK
+        run: |
+          echo "ANDROID_HOME=$ANDROID_HOME"
+          ls "$ANDROID_HOME" || true
+          ls "$ANDROID_HOME/platforms" || true
+          echo "sdk.dir=$ANDROID_HOME" > local.properties
+
+      - name: Accept Android SDK licences
+        continue-on-error: true
+        run: |
+          if [ -x "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" ]; then
+            yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null
+          else
+            echo "sdkmanager not found, continuing"
+          fi
 
       # The repository ships gradle/wrapper/gradle-wrapper.properties but not the
       # binary jar, so Gradle is installed here and the wrapper is generated.
@@ -43,7 +60,6 @@ jobs:
             gradlew
             gradlew.bat
             gradle/wrapper/gradle-wrapper.jar
-            gradle/wrapper/gradle-wrapper.properties
           if-no-files-found: warn
 
       - name: Run the unit tests (reading logic, no device needed)
