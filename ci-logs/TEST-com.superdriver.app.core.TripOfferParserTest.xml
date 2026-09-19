@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="com.superdriver.app.core.TripOfferParserTest" tests="34" skipped="0" failures="0" errors="0" timestamp="2026-09-19T12:33:00" hostname="runnervmlun5p" time="0.053">
+  <properties/>
+  <testcase name="arabicCurrencyAfterNumberAndSpelledOut" classname="com.superdriver.app.core.TripOfferParserTest" time="0.024"/>
+  <testcase name="offerKeyChangesWhenTheOfferChanges" classname="com.superdriver.app.core.TripOfferParserTest" time="0.003"/>
+  <testcase name="bonusLineIsNotTheFare" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="ourOwnOverlayIsNeverParsed" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="englishPickupAndDropoffLabels" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="valueAndUnitSplitAcrossViewsAreRejoined" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="arabicClassicCard" classname="com.superdriver.app.core.TripOfferParserTest" time="0.002"/>
+  <testcase name="arabicLabelledLegs" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="otherCurrenciesAreNeverAccepted" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="pickupBracketFormWithArabicDigits" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="whenNothingIsNamedTheBiggestAmountWins" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="singleUnlabelledDistanceIsStillUsable" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="priceSplitAcrossThreeViews" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="arabicUnitBeforeValue" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="englishPriceSplitAcrossThreeViews" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="namedFareWinsOverOtherAmounts" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="englishEuropeanSeparators" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="englishPoundSignGluedToNumber" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="unsuitableArabicOffer" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="arabicThousandsAndDecimalSeparators" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="englishCurrencyAfterNumber" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="englishBothLegsOnOneLine" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="uberHomeScreenIsIgnored" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="fractionalDistance" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="englishClassicCard" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="walletAndEarningsLinesAreNotTheFare" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="arabicIndicDigits" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="incompleteScreensAreIgnored" classname="com.superdriver.app.core.TripOfferParserTest" time="0.002"/>
+  <testcase name="arabicServiceNames" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="englishMetresAndWordUnits" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="arabicDistanceAndTimeOnTheSameLineIsNotReadTwice" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="metresAreConvertedToKilometres" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <testcase name="ocrDigitConfusionsAreRepaired" classname="com.superdriver.app.core.TripOfferParserTest" time="0.0"/>
+  <testcase name="thousandsSeparators" classname="com.superdriver.app.core.TripOfferParserTest" time="0.001"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>
