@@ -20,8 +20,8 @@ to this project's gradle.properties.
 > Task :app:checkKotlinGradlePluginConfigurationErrors SKIPPED
 > Task :app:preBuild UP-TO-DATE
 > Task :app:preDebugBuild UP-TO-DATE
-> Task :app:generateDebugResValues
 > Task :app:checkDebugAarMetadata
+> Task :app:generateDebugResValues
 > Task :app:mapDebugSourceSetPaths
 > Task :app:generateDebugResources
 > Task :app:packageDebugResources
@@ -50,10 +50,13 @@ w: file:///home/runner/work/Super-Driver/Super-Driver/app/src/main/java/com/supe
 
 > Task :app:testDebugUnitTest
 
+com.superdriver.app.core.DebugProbeTest > probeOverlayCase FAILED
+    java.lang.AssertionError at DebugProbeTest.kt:17
+
 com.superdriver.app.core.TripOfferParserTest > ourOwnOverlayIsNeverParsed FAILED
     java.lang.AssertionError at TripOfferParserTest.kt:261
 
-39 tests completed, 1 failed
+40 tests completed, 2 failed
 
 > Task :app:testDebugUnitTest FAILED
 
@@ -66,5 +69,5 @@ Execution failed for task ':app:testDebugUnitTest'.
 * Try:
 > Run with --scan to get full insights.
 
-BUILD FAILED in 42s
+BUILD FAILED in 34s
 22 actionable tasks: 22 executed
