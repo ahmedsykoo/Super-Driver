@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite name="com.superdriver.app.core.TextNormalizerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-09-19T12:19:56" hostname="runnervmlun5p" time="0.001">
+<testsuite name="com.superdriver.app.core.TextNormalizerTest" tests="4" skipped="0" failures="0" errors="0" timestamp="2026-09-19T12:25:08" hostname="runnervmlun5p" time="0.021">
   <properties/>
-  <testcase name="numbersWithEitherSeparatorStyle" classname="com.superdriver.app.core.TextNormalizerTest" time="0.0"/>
+  <testcase name="numbersWithEitherSeparatorStyle" classname="com.superdriver.app.core.TextNormalizerTest" time="0.018"/>
   <testcase name="normalizationUnifiesLettersAndSeparators" classname="com.superdriver.app.core.TextNormalizerTest" time="0.001"/>
   <testcase name="nonNumbersAreRejected" classname="com.superdriver.app.core.TextNormalizerTest" time="0.0"/>
   <testcase name="arabicDigitsBecomeAsciiDigits" classname="com.superdriver.app.core.TextNormalizerTest" time="0.0"/>
