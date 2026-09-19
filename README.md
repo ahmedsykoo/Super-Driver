@@ -74,9 +74,6 @@
 ## البناء
 
 ```bash
-# المرة الأولى فقط: توليد غلاف Gradle (ملف gradle-wrapper.jar غير مرفق في المستودع)
-gradle wrapper --gradle-version 8.7
-
 # بناء APK للتصحيح
 ./gradlew :app:assembleDebug
 
@@ -84,7 +81,16 @@ gradle wrapper --gradle-version 8.7
 ./gradlew :app:testDebugUnitTest
 ```
 
-يتطلب JDK 17 و Android SDK 35.
+يتطلب JDK 17 و Android SDK 35. غلاف Gradle مرفق في المستودع (`gradlew`).
+
+## التكامل المستمر (CI)
+
+ملف `.github/workflows/android-ci.yml` يعمل مع كل push ويقوم بـ:
+
+1. تشغيل اختبارات المنطق `:app:testDebugUnitTest`.
+2. بناء APK تصحيح `:app:assembleDebug`.
+3. رفع الـ APK وتقرير الاختبارات كـ artifacts من تبويب Actions.
+4. عند الفشل فقط: نشر سجل البناء في مجلد `ci-logs` على الفرع نفسه لتسهيل الفحص.
 
 ## بنية المشروع
 

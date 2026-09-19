@@ -81,8 +81,10 @@ jobs:
             echo "### assembleExit=$?"
           } 2>&1 | tee ci-logs/build.log
 
+      # Only on failure: the build log is published on the branch so it can be
+      # inspected even when artifacts are not accessible.
       - name: Publish the build log
-        if: always()
+        if: failure()
         run: |
           mkdir -p ci-logs
           cp app/build/test-results/testDebugUnitTest/*.xml ci-logs/ 2>/dev/null || true
