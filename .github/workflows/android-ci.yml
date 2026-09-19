@@ -28,10 +28,9 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Show the preinstalled Android SDK
+      - name: Point Gradle at the preinstalled Android SDK
         run: |
           echo "ANDROID_HOME=$ANDROID_HOME"
-          ls "$ANDROID_HOME" || true
           echo "sdk.dir=$ANDROID_HOME" > local.properties
 
       - name: Accept Android SDK licences
@@ -43,43 +42,52 @@ jobs:
             echo "sdkmanager not found, continuing"
           fi
 
-      # The repository ships gradle/wrapper/gradle-wrapper.properties but not the
-      # binary jar, so Gradle is installed here and the wrapper is generated.
-      - name: Install Gradle 8.7
+      # The binary wrapper jar cannot be generated offline, so it is created
+      # here once and committed back to the branch.
+      - name: Generate the Gradle wrapper when it is missing
         run: |
+          if [ -f gradle/wrapper/gradle-wrapper.jar ]; then
+            echo "wrapper already present"
+            exit 0
+          fi
           curl -sSL -o /tmp/gradle.zip https://services.gradle.org/distributions/gradle-8.7-bin.zip
           unzip -q /tmp/gradle.zip -d "$HOME/gradle-dist"
-          echo "$HOME/gradle-dist/gradle-8.7/bin" >> "$GITHUB_PATH"
+          "$HOME/gradle-dist/gradle-8.7/bin/gradle" wrapper --gradle-version 8.7 --distribution-type bin
 
-      - name: Generate the Gradle wrapper
-        run: gradle wrapper --gradle-version 8.7 --distribution-type bin
+      - name: Commit the generated Gradle wrapper
+        run: |
+          if [ -z "$(git status --porcelain gradlew gradlew.bat gradle/wrapper)" ]; then
+            echo "nothing to commit"
+            exit 0
+          fi
+          git config user.name "ci-bot"
+          git config user.email "ci-bot@users.noreply.github.com"
+          git add gradlew gradlew.bat gradle/wrapper
+          git commit -m "ci: add the Gradle wrapper [skip ci]"
+          git push origin "HEAD:${GITHUB_REF_NAME}"
 
       - name: Build and test
         id: build
         continue-on-error: true
         run: |
           set -o pipefail
+          chmod +x ./gradlew
           mkdir -p ci-logs
           {
-            echo "### gradle :app:testDebugUnitTest"
-            gradle --no-daemon :app:testDebugUnitTest
+            ./gradlew --no-daemon :app:testDebugUnitTest
             echo "### testExit=$?"
             echo
-            echo "### gradle :app:assembleDebug"
-            gradle --no-daemon :app:assembleDebug
+            ./gradlew --no-daemon :app:assembleDebug
             echo "### assembleExit=$?"
           } 2>&1 | tee ci-logs/build.log
 
-      - name: Collect test reports
-        if: always()
+      # Only on failure: the build log is published on the branch so it can be
+      # inspected even when artifacts are not accessible.
+      - name: Publish the build log
+        if: failure()
         run: |
           mkdir -p ci-logs
           cp app/build/test-results/testDebugUnitTest/*.xml ci-logs/ 2>/dev/null || true
-          ls ci-logs
-
-      - name: Publish the build log on the branch
-        if: always()
-        run: |
           git config user.name "ci-bot"
           git config user.email "ci-bot@users.noreply.github.com"
           git add -f ci-logs
@@ -87,7 +95,7 @@ jobs:
             echo "no log to publish"
           else
             git commit -m "ci: publish build log for run ${GITHUB_RUN_ID} [skip ci]"
-            git push origin HEAD:${GITHUB_REF_NAME}
+            git push origin "HEAD:${GITHUB_REF_NAME}"
           fi
 
       - name: Fail the job when the build failed

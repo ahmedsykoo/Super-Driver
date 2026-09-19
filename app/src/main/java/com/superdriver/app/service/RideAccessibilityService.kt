@@ -195,8 +195,10 @@ class RideAccessibilityService : AccessibilityService() {
         addText(node.contentDescription, out)
         for (index in 0 until node.childCount) {
             val child = node.getChild(index) ?: continue
+            // Nodes are not recycled on purpose: AccessibilityNodeInfo.recycle()
+            // is deprecated from API 33 on, where instances are pooled and
+            // recycling them can break the following reads.
             collectNode(child, out, depth + 1)
-            child.recycle()
         }
     }
 

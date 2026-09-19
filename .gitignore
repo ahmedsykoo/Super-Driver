@@ -14,3 +14,6 @@ local.properties
 /app/release/
 *.jks
 *.keystore
+
+# CI build logs (published on failure only)
+ci-logs/
