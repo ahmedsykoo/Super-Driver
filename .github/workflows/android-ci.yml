@@ -6,6 +6,9 @@ on:
   pull_request:
   workflow_dispatch:
 
+permissions:
+  contents: write
+
 jobs:
   build:
     name: Unit tests + debug APK
@@ -29,7 +32,6 @@ jobs:
         run: |
           echo "ANDROID_HOME=$ANDROID_HOME"
           ls "$ANDROID_HOME" || true
-          ls "$ANDROID_HOME/platforms" || true
           echo "sdk.dir=$ANDROID_HOME" > local.properties
 
       - name: Accept Android SDK licences
@@ -52,24 +54,40 @@ jobs:
       - name: Generate the Gradle wrapper
         run: gradle wrapper --gradle-version 8.7 --distribution-type bin
 
-      - name: Upload the Gradle wrapper
-        uses: actions/upload-artifact@v4
-        with:
-          name: gradle-wrapper
-          path: |
-            gradlew
-            gradlew.bat
-            gradle/wrapper/gradle-wrapper.jar
-          if-no-files-found: warn
+      - name: Build and test
+        id: build
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          mkdir -p ci-logs
+          {
+            echo "### gradle :app:testDebugUnitTest"
+            gradle --no-daemon :app:testDebugUnitTest
+            echo "### testExit=$?"
+            echo
+            echo "### gradle :app:assembleDebug"
+            gradle --no-daemon :app:assembleDebug
+            echo "### assembleExit=$?"
+          } 2>&1 | tee ci-logs/build.log
 
-      - name: Run the unit tests (reading logic, no device needed)
-        run: gradle --no-daemon :app:testDebugUnitTest
+      - name: Publish the build log on the branch
+        if: always()
+        run: |
+          git config user.name "ci-bot"
+          git config user.email "ci-bot@users.noreply.github.com"
+          git add -f ci-logs/build.log
+          if git diff --cached --quiet; then
+            echo "no log to publish"
+          else
+            git commit -m "ci: publish build log for run ${GITHUB_RUN_ID} [skip ci]"
+            git push origin HEAD:${GITHUB_REF_NAME}
+          fi
 
-      - name: Build the debug APK
-        run: gradle --no-daemon :app:assembleDebug
+      - name: Fail the job when the build failed
+        if: steps.build.outcome == 'failure'
+        run: exit 1
 
       - name: Upload APK and test report
-        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: super-driver-debug
