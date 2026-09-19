@@ -41,8 +41,8 @@ to this project's gradle.properties.
 w: file:///home/runner/work/Super-Driver/Super-Driver/app/src/main/java/com/superdriver/app/service/RideAccessibilityService.kt:199:19 'fun recycle(): Unit' is deprecated. Deprecated in Java.
 
 > Task :app:compileDebugJavaWithJavac NO-SOURCE
-> Task :app:bundleDebugClassesToCompileJar
 > Task :app:bundleDebugClassesToRuntimeJar
+> Task :app:bundleDebugClassesToCompileJar
 > Task :app:processDebugJavaRes
 > Task :app:compileDebugUnitTestKotlin
 > Task :app:compileDebugUnitTestJavaWithJavac NO-SOURCE
@@ -66,5 +66,5 @@ Execution failed for task ':app:testDebugUnitTest'.
 * Try:
 > Run with --scan to get full insights.
 
-BUILD FAILED in 37s
+BUILD FAILED in 42s
 22 actionable tasks: 22 executed
