@@ -3,6 +3,11 @@ name: Build debug APK
 # Builds 04-android-project and uploads the debug APK as a workflow artifact.
 # The project is unbuilt/untested on a device (see 04-android-project/README.md) —
 # this workflow is the first thing that actually compiles it.
+#
+# For a working login in the built APK, add two repo secrets first:
+# Settings -> Secrets and variables -> Actions -> New repository secret
+#   SUPABASE_URL          = https://nmikjuyjcjyjmuqiacvl.supabase.co
+#   SUPABASE_ANON_KEY     = (the sb_publishable_... key)
 
 on:
   push:
@@ -26,6 +31,18 @@ jobs:
 
       - name: Install SDK platform and build-tools
         run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+
+      - name: Write Supabase credentials
+        # Pulled from repo secrets (Settings -> Secrets and variables -> Actions),
+        # never committed. Missing secrets just produce an empty local.properties —
+        # the build still succeeds, login just won't work in that APK (see build.gradle.kts).
+        working-directory: 04-android-project
+        run: |
+          echo "supabaseUrl=${SUPABASE_URL}" > local.properties
+          echo "supabaseAnonKey=${SUPABASE_ANON_KEY}" >> local.properties
+        env:
+          SUPABASE_URL: ${{ secrets.SUPABASE_URL }}
+          SUPABASE_ANON_KEY: ${{ secrets.SUPABASE_ANON_KEY }}
 
       - name: Set up Gradle
         # The repo's own gradlew wrapper jar/script were never generated, so this
