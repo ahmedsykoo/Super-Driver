@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.Button
 import android.widget.CompoundButton
 import android.widget.LinearLayout
+import android.widget.EditText
 import android.widget.RadioButton
 import android.widget.ScrollView
 import android.widget.Switch
@@ -49,7 +50,7 @@ object Theme {
     const val RADIUS_MD = 14
 }
 
-enum class NavTab { HOME, HISTORY, SETTINGS }
+enum class NavTab { HOME, SETTINGS }
 
 /*
  * Screens are built in code (not XML) to keep the layer small and compile-safe without an SDK here.
@@ -138,7 +139,6 @@ abstract class BaseActivity : Activity() {
             setBackgroundColor(0xFF0E1A2C.toInt())
             addView(View(this@BaseActivity).apply { setBackgroundColor(Theme.LINE) }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1))
             addView(item(NavTab.HOME, "الرئيسية", MainActivity::class.java))
-            addView(item(NavTab.HISTORY, "السجل", HistoryActivity::class.java))
             addView(item(NavTab.SETTINGS, "الإعدادات", SettingsActivity::class.java))
         }
     }
@@ -280,31 +280,37 @@ fun Context.styledRadio(text: CharSequence, checked: Boolean) = RadioButton(this
     )
 }
 
-/** Three stat tiles in a row, e.g. on Home or History. */
-fun Context.statRow(vararg stats: Pair<CharSequence, CharSequence>) = LinearLayout(this).apply {
-    orientation = LinearLayout.HORIZONTAL
-    layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { bottomMargin = dp(14) }
-    stats.forEachIndexed { i, (value, label) ->
-        addView(
-            LinearLayout(this@statRow).apply {
-                orientation = LinearLayout.VERTICAL
-                gravity = Gravity.CENTER_HORIZONTAL
-                background = GradientDrawable().apply { cornerRadius = dp(Theme.RADIUS_MD).toFloat(); setColor(Theme.CARD); setStroke(dp(1), Theme.LINE) }
-                setPadding(dp(6), dp(12), dp(6), dp(12))
-                layoutParams = LinearLayout.LayoutParams(0, ViewGroup.LayoutParams.WRAP_CONTENT, 1f).apply { if (i > 0) marginStart = dp(8) }
-                addView(TextView(this@statRow).apply { text = value; setTextColor(Theme.TEAL); setTypeface(typeface, Typeface.BOLD); textSize = 16f; gravity = Gravity.CENTER })
-                addView(TextView(this@statRow).apply { text = label; setTextColor(Theme.INK_FAINT); textSize = 9.5f; gravity = Gravity.CENTER })
-            }
-        )
+/** One labelled text field, used by the login/profile form. */
+fun Context.labeledField(
+    label: CharSequence,
+    hint: CharSequence = "",
+    inputType: Int = android.text.InputType.TYPE_CLASS_TEXT,
+    prefill: CharSequence = "",
+): LinearLayout {
+    val field = EditText(this).apply {
+        this.hint = hint
+        this.inputType = inputType
+        setText(prefill)
+        setTextColor(Theme.INK)
+        setHintTextColor(Theme.INK_FAINT)
+        textSize = 14.5f
+        background = GradientDrawable().apply { cornerRadius = dp(12).toFloat(); setColor(Theme.CARD_2); setStroke(dp(1), Theme.LINE) }
+        setPadding(dp(14), dp(12), dp(14), dp(12))
+    }
+    return LinearLayout(this).apply {
+        orientation = LinearLayout.VERTICAL
+        setPadding(0, 0, 0, dp(12))
+        addView(TextView(this@labeledField).apply { text = label; setTextColor(Theme.INK_DIM); textSize = 11.5f; setPadding(0, 0, 0, dp(6)) })
+        addView(field)
+        tag = field // lets the caller pull the EditText back out with (row.tag as EditText)
     }
 }
 
-/** Small colored pill, e.g. a verdict badge next to a history row. */
-fun Context.badge(text: CharSequence, color: Int) = TextView(this).apply {
-    this.text = text
-    setTextColor(Theme.ON_TEAL)
-    setTypeface(typeface, Typeface.BOLD)
-    textSize = 10f
-    setPadding(dp(8), dp(3), dp(8), dp(3))
-    background = GradientDrawable().apply { cornerRadius = dp(8).toFloat(); setColor(color) }
+/** Inline error/status line under a form; hidden (empty) by default. */
+fun Context.formNote(initial: CharSequence = "", color: Int = Theme.RED) = TextView(this).apply {
+    text = initial
+    setTextColor(color)
+    textSize = 11.5f
+    setPadding(0, dp(2), 0, dp(6))
+    visibility = if (initial.isEmpty()) View.GONE else View.VISIBLE
 }

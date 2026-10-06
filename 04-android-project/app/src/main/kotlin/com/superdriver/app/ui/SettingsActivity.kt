@@ -51,7 +51,7 @@ class SettingsActivity : BaseActivity() {
                 control = styledSwitch(s.vibrate) { on -> save { it.copy(vibrate = on) } },
             )
 
-            setPageWithNav(
+            val page = setPageWithNav(
                 NavTab.SETTINGS,
                 brandHeader(),
                 heading(getString(R.string.set_title)),
@@ -62,6 +62,12 @@ class SettingsActivity : BaseActivity() {
                 sectionLabel("عام"),
                 card(vibrate),
             )
+            page.addView(outlineButton(getString(R.string.set_logout)) {
+                scope.launch {
+                    appGraph.sessionRepo.logout() // awaited: MainActivity checks the session right on resume
+                    finish()
+                }
+            })
             sync()
         }
     }

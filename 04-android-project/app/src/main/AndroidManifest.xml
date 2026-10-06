@@ -2,6 +2,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 
     <uses-permission android:name="android.permission.VIBRATE" />
+    <uses-permission android:name="android.permission.INTERNET" />
     <!--
         TODO(T2 result): "display over other apps" (SYSTEM_ALERT_WINDOW) is intentionally NOT declared.
         The overlay uses TYPE_ACCESSIBILITY_OVERLAY (see OverlayController). Add it only if T2/T3 on a real device shows it is needed.
@@ -22,9 +23,9 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name=".ui.LoginActivity" android:exported="false" />
         <activity android:name=".ui.OnboardingActivity" android:exported="false" />
         <activity android:name=".ui.SettingsActivity" android:exported="false" />
-        <activity android:name=".ui.HistoryActivity" android:exported="false" />
 
         <service
             android:name=".service.UberWatcherService"

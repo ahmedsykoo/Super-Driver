@@ -18,6 +18,12 @@ class MainActivity : BaseActivity() {
     override fun onResume() {
         super.onResume()
         scope.launch {
+            val loggedIn = appGraph.sessionRepo.current()?.profile?.isComplete == true
+            if (!loggedIn) {
+                startActivity(Intent(this@MainActivity, LoginActivity::class.java))
+                return@launch
+            }
+
             val ready = appGraph.settingsRepo.current().privacyAccepted && isWatcherServiceEnabled()
             val statusColor = if (ready) Theme.GREEN else Theme.RED
             val statusText = getString(if (ready) R.string.main_status_on else R.string.main_status_off)

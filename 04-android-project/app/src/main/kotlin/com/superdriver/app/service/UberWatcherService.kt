@@ -30,7 +30,7 @@ class UberWatcherService : AccessibilityService() {
     private lateinit var overlay: OverlayController
     private var queued = false
     private var lastState: OverlayState? = null
-    private var lastLogged: RideOffer? = null
+    private var lastOffer: RideOffer? = null
 
     private val tick = Runnable {
         queued = false
@@ -67,7 +67,7 @@ class UberWatcherService : AccessibilityService() {
     private fun hideBadge() {
         overlay.hide()
         lastState = null
-        lastLogged = null
+        lastOffer = null
     }
 
     private fun evaluate() {
@@ -99,10 +99,8 @@ class UberWatcherService : AccessibilityService() {
             overlay.show(state)
             lastState = state
         }
-        if (offer != null && offer != lastLogged) {
-            lastLogged = offer
-            val s = state as OverlayState.Reading
-            graph.tripLog.record(offer, s.eval)
+        if (offer != null && offer != lastOffer) {
+            lastOffer = offer
             if (graph.settingsRepo.settings.value.vibrate) vibrateOnce()
         }
     }

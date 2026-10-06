@@ -16,7 +16,6 @@
     <string name="main_status_off">متوقف: الإعداد مش مكتمل</string>
     <string name="main_finish_setup">إكمال الإعداد</string>
     <string name="main_settings">الإعدادات</string>
-    <string name="main_history">سجل الطلبات</string>
 
     <!-- Onboarding -->
     <string name="onb_title">الإعداد الأولي</string>
@@ -38,14 +37,24 @@
     <string name="set_basis_inclusive">شامل (السعر ÷ مسافة الالتقاط + المشوار)</string>
     <string name="set_basis_trip">المشوار فقط (السعر ÷ مسافة المشوار)</string>
     <string name="set_vibrate">اهتزاز عند ظهور طلب</string>
+    <string name="set_logout">تسجيل الخروج</string>
 
-    <!-- History -->
-    <string name="hist_title">سجل الطلبات</string>
-    <string name="hist_empty">مفيش طلبات متسجلة لسه.</string>
-    <string name="hist_clear">مسح السجل</string>
-    <string name="hist_clear_confirm">تمسح كل السجل؟</string>
-    <string name="hist_yes">مسح</string>
-    <string name="hist_no">إلغاء</string>
-    <string name="hist_row_value">%1$s ج.م/كم · %2$s</string>
-    <string name="hist_row_detail">%1$s · السعر %2$s ج.م · التقاط %3$s كم · مشوار %4$s كم</string>
+    <!-- Login (T7) -->
+    <string name="login_email_title">تسجيل الدخول</string>
+    <string name="login_email_hint">البريد الإلكتروني</string>
+    <string name="login_send_code">إرسال الكود</string>
+    <string name="login_code_title">أدخل الكود</string>
+    <string name="login_code_sent_to">بعتنا كود على %1$s</string>
+    <string name="login_code_hint">كود التفعيل</string>
+    <string name="login_verify">تأكيد</string>
+    <string name="login_resend">إعادة إرسال الكود</string>
+    <string name="login_change_email">تغيير البريد الإلكتروني</string>
+    <string name="login_profile_title">بياناتك</string>
+    <string name="login_name_hint">الاسم</string>
+    <string name="login_city_hint">المدينة</string>
+    <string name="login_birth_hint">تاريخ الميلاد (يوم/شهر/سنة)</string>
+    <string name="login_save_continue">حفظ ومتابعة</string>
+    <string name="login_error_empty_email">اكتب بريد إلكتروني صحيح</string>
+    <string name="login_error_empty_code">اكتب الكود اللي وصلك</string>
+    <string name="login_error_empty_profile">اكتب الاسم والمدينة وتاريخ الميلاد</string>
 </resources>

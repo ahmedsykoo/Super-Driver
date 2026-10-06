@@ -1,15 +1,12 @@
 package com.superdriver.app.data
 
 import com.superdriver.engine.Basis
-import com.superdriver.engine.Evaluation
-import com.superdriver.engine.RideOffer
 import com.superdriver.engine.Thresholds
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.SharingStarted
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.map
 import kotlinx.coroutines.flow.stateIn
-import kotlinx.coroutines.launch
 
 data class Settings(
     val thresholds: Thresholds,
@@ -42,17 +39,4 @@ class SettingsRepository(private val dao: SettingsDao, scope: CoroutineScope) {
     suspend fun update(change: (Settings) -> Settings) {
         dao.upsert(change(current()).toEntity())
     }
-}
-
-class TripLog(private val dao: TripDao, private val scope: CoroutineScope) {
-    companion object { const val KEEP = 500 }
-
-    fun record(offer: RideOffer, eval: Evaluation) {
-        scope.launch {
-            dao.insert(TripEntity(0, System.currentTimeMillis(), offer.price, offer.pickupKm, offer.tripKm, eval.judgedPerKm, eval.verdict.name))
-            dao.trim(KEEP)
-        }
-    }
-
-    fun clear() { scope.launch { dao.clear() } }
 }
