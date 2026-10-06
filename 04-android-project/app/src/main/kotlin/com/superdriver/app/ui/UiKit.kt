@@ -50,7 +50,7 @@ object Theme {
     const val RADIUS_MD = 14
 }
 
-enum class NavTab { HOME, SETTINGS }
+enum class NavTab { HOME, SUBSCRIPTION, SETTINGS }
 
 /*
  * Screens are built in code (not XML) to keep the layer small and compile-safe without an SDK here.
@@ -139,6 +139,7 @@ abstract class BaseActivity : Activity() {
             setBackgroundColor(0xFF0E1A2C.toInt())
             addView(View(this@BaseActivity).apply { setBackgroundColor(Theme.LINE) }, LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, 1))
             addView(item(NavTab.HOME, "الرئيسية", MainActivity::class.java))
+            addView(item(NavTab.SUBSCRIPTION, "الاشتراك", SubscriptionActivity::class.java))
             addView(item(NavTab.SETTINGS, "الإعدادات", SettingsActivity::class.java))
         }
     }

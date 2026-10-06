@@ -44,6 +44,20 @@ data class SessionEntity(
     val birthDate: String, // free text as typed (dd/mm/yyyy) — see LoginActivity
 )
 
+/**
+ * Local cache of subscription status (T7b), refreshed from Supabase — never the source of truth
+ * (handoff rule: "مصدر الحقيقة الوحيد السيرفر"). `cachedAtMillis` backs the 24h offline window.
+ */
+@Entity(tableName = "subscription")
+data class SubscriptionEntity(
+    @PrimaryKey val id: Int,
+    val status: String, // "trial" | "active" | "expired"
+    val plan: String, // "" | "monthly" | "yearly"
+    val trialEndsAtMillis: Long,
+    val activeUntilMillis: Long, // 0 = none
+    val cachedAtMillis: Long,
+)
+
 @Dao
 interface SettingsDao {
     @Query("SELECT * FROM settings WHERE id = 1")
@@ -71,10 +85,30 @@ interface SessionDao {
     suspend fun clear()
 }
 
-@Database(entities = [SettingsEntity::class, SessionEntity::class], version = 1, exportSchema = false)
+@Dao
+interface SubscriptionDao {
+    @Query("SELECT * FROM subscription WHERE id = 1")
+    fun observe(): Flow<SubscriptionEntity?>
+
+    @Query("SELECT * FROM subscription WHERE id = 1")
+    suspend fun get(): SubscriptionEntity?
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
+    suspend fun upsert(e: SubscriptionEntity)
+
+    @Query("DELETE FROM subscription")
+    suspend fun clear()
+}
+
+@Database(
+    entities = [SettingsEntity::class, SessionEntity::class, SubscriptionEntity::class],
+    version = 1,
+    exportSchema = false,
+)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun settingsDao(): SettingsDao
     abstract fun sessionDao(): SessionDao
+    abstract fun subscriptionDao(): SubscriptionDao
 
     companion object {
         fun create(context: Context): AppDatabase =

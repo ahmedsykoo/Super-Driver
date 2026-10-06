@@ -69,6 +69,7 @@ class SettingsActivity : BaseActivity() {
             page.addView(outlineButton(getString(R.string.set_logout)) {
                 scope.launch {
                     appGraph.sessionRepo.logout() // awaited: MainActivity checks the session right on resume
+                    appGraph.subscriptionRepo.clearCache()
                     finish()
                 }
             })
