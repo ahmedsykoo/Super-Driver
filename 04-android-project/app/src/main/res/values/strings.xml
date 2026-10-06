@@ -47,7 +47,10 @@
     <string name="set_logout">تسجيل الخروج</string>
 
     <!-- Login (T7) -->
-    <string name="login_email_title">تسجيل الدخول</string>
+    <string name="login_splash_label">تسجيل</string>
+    <string name="login_splash_continue">ابدأ</string>
+    <string name="login_form_title">بيانات التسجيل</string>
+    <string name="login_form_note">بعد ما تبعت الكود، التطبيق مش هيفتح غير لما تأكّده في الشاشة الجاية.</string>
     <string name="login_email_hint">البريد الإلكتروني</string>
     <string name="login_send_code">إرسال الكود</string>
     <string name="login_code_title">أدخل الكود</string>
@@ -55,8 +58,9 @@
     <string name="login_code_hint">كود التفعيل</string>
     <string name="login_verify">تأكيد</string>
     <string name="login_resend">إعادة إرسال الكود</string>
-    <string name="login_change_email">تغيير البريد الإلكتروني</string>
+    <string name="login_change_email">تعديل البيانات</string>
     <string name="login_profile_title">بياناتك</string>
+    <string name="login_resume_note">اتأكد إيميلك (%1$s) قبل كده — باقي بياناتك بس</string>
     <string name="login_name_hint">الاسم</string>
     <string name="login_city_hint">المدينة</string>
     <string name="login_birth_hint">تاريخ الميلاد (يوم/شهر/سنة)</string>
