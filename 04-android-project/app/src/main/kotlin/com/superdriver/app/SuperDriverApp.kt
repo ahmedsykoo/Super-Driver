@@ -5,7 +5,9 @@ import android.content.Context
 import com.superdriver.app.data.AppDatabase
 import com.superdriver.app.data.SessionRepository
 import com.superdriver.app.data.SettingsRepository
+import com.superdriver.app.data.SubscriptionRepository
 import com.superdriver.app.data.SupabaseAuthApi
+import com.superdriver.app.data.SupabaseRestApi
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.SupervisorJob
@@ -16,6 +18,8 @@ class AppGraph(context: Context) {
     val settingsRepo = SettingsRepository(db.settingsDao(), appScope)
     private val authApi = SupabaseAuthApi(BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_ANON_KEY)
     val sessionRepo = SessionRepository(db.sessionDao(), authApi, appScope)
+    private val restApi = SupabaseRestApi(BuildConfig.SUPABASE_URL, BuildConfig.SUPABASE_ANON_KEY)
+    val subscriptionRepo = SubscriptionRepository(db.subscriptionDao(), restApi, db.sessionDao(), appScope)
 }
 
 class SuperDriverApp : Application() {

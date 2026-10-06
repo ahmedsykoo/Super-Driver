@@ -154,7 +154,7 @@ class LoginActivity : BaseActivity() {
                 val saved = appGraph.sessionRepo.saveProfile(name, city, birth)
                 busy = false
                 when (saved) {
-                    is AuthResult.Ok -> finish()
+                    is AuthResult.Ok -> { appGraph.subscriptionRepo.ensureTrialStarted(); finish() }
                     is AuthResult.Error -> render(saved.message) // session exists; next launch resumes at RESUME_PROFILE
                 }
             }
@@ -194,7 +194,7 @@ class LoginActivity : BaseActivity() {
                 val result = appGraph.sessionRepo.saveProfile(typedName, typedCity, typedBirth)
                 busy = false
                 when (result) {
-                    is AuthResult.Ok -> finish()
+                    is AuthResult.Ok -> { appGraph.subscriptionRepo.ensureTrialStarted(); finish() }
                     is AuthResult.Error -> render(result.message)
                 }
             }
