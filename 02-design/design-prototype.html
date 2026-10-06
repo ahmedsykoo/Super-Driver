@@ -1,0 +1,1040 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Super Driver — نموذج تصميم تفاعلي</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;600&display=swap" rel="stylesheet">
+<style>
+:root{
+  --navy:#0B2545;
+  --navy-light:#14365F;
+  --teal:#13A88A;
+  --teal-dark:#0E7C7B;
+  --gold:#D4A62A;
+  --red:#E25555;
+  --amber:#E2A33D;
+  --green:#2FBF71;
+  --bg-app:#0D1B2E;
+  --bg-card:#132A47;
+  --bg-card-2:#17335A;
+  --ink:#F2F6FA;
+  --ink-dim:#9FB3C8;
+  --ink-faint:#5D7694;
+  --border:#22406A;
+  --uber-bg:#F6F6F4;
+  --radius-lg:22px;
+  --radius-md:14px;
+  --radius-sm:10px;
+}
+*{box-sizing:border-box;}
+html,body{margin:0;padding:0;}
+body{
+  font-family:'Cairo',sans-serif;
+  background:transparent;
+  color:var(--ink);
+  -webkit-font-smoothing:antialiased;
+}
+.page-padding-top, .page-padding-bottom{box-sizing:border-box;}
+:root{
+  --safe-top: env(safe-area-inset-top, 0px);
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+}
+body{padding-top:var(--safe-top); padding-bottom:var(--safe-bottom);}
+
+.wrap{
+  max-width:430px;
+  margin:0 auto;
+  padding:18px 16px 32px;
+}
+
+/* ===== top bar ===== */
+.topbar{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:18px;
+}
+.brand{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+.brand-mark{
+  width:36px;height:36px;border-radius:10px;
+  background:linear-gradient(145deg, var(--teal), var(--teal-dark));
+  display:flex;align-items:center;justify-content:center;
+  font-weight:800;font-size:15px;color:#fff;
+  flex-shrink:0;
+}
+.brand-name{font-weight:800;font-size:16px;letter-spacing:.2px;}
+.brand-sub{font-size:11px;color:var(--ink-faint);margin-top:1px;}
+
+/* ===== tab nav ===== */
+.tabs{
+  display:flex;
+  gap:6px;
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:4px;
+  margin-bottom:18px;
+  overflow-x:auto;
+  scrollbar-width:none;
+}
+.tabs::-webkit-scrollbar{display:none;}
+.tab-btn{
+  flex:0 0 auto;
+  border:none;
+  background:transparent;
+  color:var(--ink-dim);
+  font-family:inherit;
+  font-size:12.5px;
+  font-weight:600;
+  padding:9px 13px;
+  border-radius:10px;
+  cursor:pointer;
+  white-space:nowrap;
+  transition:background .15s, color .15s;
+}
+.tab-btn.active{
+  background:var(--teal);
+  color:#07251F;
+}
+
+/* ===== screens ===== */
+.screen{display:none;animation:fadeIn .2s ease;}
+.screen.active{display:block;}
+@keyframes fadeIn{from{opacity:0;transform:translateY(4px);}to{opacity:1;transform:none;}}
+
+.section-label{
+  font-size:12px;
+  font-weight:700;
+  color:var(--teal);
+  margin:0 0 10px;
+  display:flex;
+  align-items:center;
+  gap:6px;
+}
+.section-note{
+  font-size:12px;
+  color:var(--ink-faint);
+  line-height:1.6;
+  margin:0 0 16px;
+}
+
+/* ===== phone frame ===== */
+.phone{
+  position:relative;
+  width:100%;
+  aspect-ratio:9/19.5;
+  background:#000;
+  border-radius:38px;
+  padding:10px;
+  box-shadow:0 0 0 1px var(--border), 0 20px 50px rgba(0,0,0,.45);
+  margin-bottom:14px;
+}
+.phone-screen{
+  position:relative;
+  width:100%;
+  height:100%;
+  border-radius:28px;
+  overflow:hidden;
+  background:var(--uber-bg);
+}
+.phone-notch{
+  position:absolute;
+  top:10px;left:50%;transform:translateX(-50%);
+  width:84px;height:22px;
+  background:#000;
+  border-radius:14px;
+  z-index:50;
+}
+.phone-statusbar{
+  height:38px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 20px;
+  font-size:11px;
+  font-weight:600;
+  color:#111;
+  background:var(--uber-bg);
+}
+
+/* ===== fake map ===== */
+.fakemap{
+  position:relative;
+  width:100%;
+  height:44%;
+  background:
+    linear-gradient(135deg, #E9ECE4 0%, #DCE4DC 100%);
+  overflow:hidden;
+}
+.fakemap svg{position:absolute;inset:0;width:100%;height:100%;}
+.fakemap .pin{
+  position:absolute;
+  width:14px;height:14px;
+  border-radius:50%;
+  background:#2563EB;
+  border:3px solid #fff;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+.fakemap .pin-dest{
+  position:absolute;
+  width:12px;height:12px;
+  background:#111;
+  border-radius:3px;
+  box-shadow:0 2px 6px rgba(0,0,0,.25);
+}
+
+/* ===== uber-style request card ===== */
+.uber-card{
+  position:relative;
+  background:#fff;
+  border-radius:20px 20px 0 0;
+  margin-top:-18px;
+  padding:16px 18px 18px;
+  z-index:5;
+}
+.uber-card-top{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  margin-bottom:10px;
+}
+.uber-x-pill{
+  background:#000;
+  color:#fff;
+  font-size:11.5px;
+  font-weight:700;
+  padding:5px 11px;
+  border-radius:16px;
+  display:inline-flex;
+  align-items:center;
+  gap:6px;
+}
+.uber-price{
+  font-size:30px;
+  font-weight:800;
+  color:#111;
+  margin:2px 0 8px;
+  direction:rtl;
+}
+.uber-meta-row{
+  display:flex;
+  gap:8px;
+  margin-bottom:12px;
+}
+.uber-meta-chip{
+  background:#F2F2F0;
+  border-radius:10px;
+  padding:6px 10px;
+  font-size:11px;
+  color:#444;
+  font-weight:600;
+}
+.uber-divider{
+  height:1px;
+  background:#EDEDEA;
+  margin:10px 0;
+}
+.uber-line{
+  font-size:13px;
+  color:#333;
+  text-align:center;
+  margin:4px 0;
+  font-weight:500;
+}
+.uber-line.dim{color:#8A8A85;font-size:12.5px;}
+.uber-btn{
+  margin-top:14px;
+  background:#1C1C1C;
+  color:#fff;
+  text-align:center;
+  padding:15px;
+  border-radius:12px;
+  font-weight:700;
+  font-size:14.5px;
+}
+
+/* ===== floating overlay badge (the star of the show) ===== */
+.sd-overlay{
+  position:absolute;
+  top:46px;
+  left:12px;
+  z-index:40;
+  display:flex;
+  align-items:center;
+  gap:8px;
+  background:var(--bg-card);
+  border:1.5px solid var(--border);
+  border-radius:16px;
+  padding:9px 12px 9px 9px;
+  box-shadow:0 8px 20px rgba(0,0,0,.35);
+  max-width:168px;
+}
+.sd-overlay.good{border-color:var(--green);}
+.sd-overlay.ok{border-color:var(--amber);}
+.sd-overlay.bad{border-color:var(--red);}
+.sd-dot{
+  width:9px;height:9px;border-radius:50%;flex-shrink:0;
+}
+.sd-overlay.good .sd-dot{background:var(--green);box-shadow:0 0 0 4px rgba(47,191,113,.18);}
+.sd-overlay.ok .sd-dot{background:var(--amber);box-shadow:0 0 0 4px rgba(226,163,61,.18);}
+.sd-overlay.bad .sd-dot{background:var(--red);box-shadow:0 0 0 4px rgba(226,85,85,.18);}
+.sd-overlay-text{direction:rtl;}
+.sd-overlay-price{
+  font-family:'JetBrains Mono',monospace;
+  font-size:14px;
+  font-weight:700;
+  color:#fff;
+  line-height:1.1;
+}
+.sd-overlay-label{
+  font-size:9.5px;
+  color:var(--ink-dim);
+  margin-top:2px;
+  font-weight:600;
+}
+.sd-overlay-badge{
+  position:absolute;
+  top:-8px;
+  right:-6px;
+  background:var(--navy);
+  color:#fff;
+  font-size:8px;
+  font-weight:800;
+  padding:3px 6px;
+  border-radius:8px;
+  border:1px solid var(--bg-card);
+}
+
+.caution-tag{
+  display:inline-flex;
+  align-items:center;
+  gap:5px;
+  background:rgba(226,85,85,.12);
+  border:1px solid rgba(226,85,85,.35);
+  color:#FF9B9B;
+  font-size:10.5px;
+  font-weight:700;
+  padding:5px 9px;
+  border-radius:8px;
+  margin-top:10px;
+}
+
+/* ===== expanded sheet (tap overlay) ===== */
+.sd-sheet{
+  position:absolute;
+  bottom:0;left:0;right:0;
+  background:var(--bg-card);
+  border-top:1px solid var(--border);
+  border-radius:20px 20px 0 0;
+  padding:16px 18px 20px;
+  z-index:45;
+  box-shadow:0 -12px 30px rgba(0,0,0,.4);
+}
+.sd-sheet-handle{
+  width:36px;height:4px;background:var(--ink-faint);
+  border-radius:3px;margin:0 auto 14px;opacity:.5;
+}
+.sd-stat-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:8px;
+  margin:12px 0;
+}
+.sd-stat{
+  background:var(--bg-card-2);
+  border-radius:12px;
+  padding:10px 12px;
+  text-align:center;
+}
+.sd-stat-num{
+  font-family:'JetBrains Mono',monospace;
+  font-size:17px;
+  font-weight:700;
+  color:var(--teal);
+}
+.sd-stat-label{font-size:10px;color:var(--ink-faint);margin-top:3px;}
+.sd-verdict{
+  text-align:center;
+  padding:10px;
+  border-radius:12px;
+  font-size:13px;
+  font-weight:700;
+  margin-top:10px;
+}
+.sd-verdict.good{background:rgba(47,191,113,.14);color:#6FE3A3;}
+.sd-verdict.ok{background:rgba(226,163,61,.14);color:#F0C274;}
+.sd-verdict.bad{background:rgba(226,85,85,.14);color:#FF9B9B;}
+
+/* ===== generic card ===== */
+.card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:var(--radius-lg);
+  padding:18px;
+  margin-bottom:14px;
+}
+.card-title{
+  font-size:14px;
+  font-weight:700;
+  margin:0 0 4px;
+}
+.card-sub{
+  font-size:12px;
+  color:var(--ink-dim);
+  line-height:1.6;
+  margin:0 0 14px;
+}
+
+/* ===== settings rows ===== */
+.setting-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:13px 0;
+  border-bottom:1px solid var(--border);
+}
+.setting-row:last-child{border-bottom:none;}
+.setting-row-text{display:flex;flex-direction:column;gap:2px;}
+.setting-row-title{font-size:13.5px;font-weight:600;}
+.setting-row-hint{font-size:11px;color:var(--ink-faint);}
+
+.slider-row{padding:14px 0;}
+.slider-head{
+  display:flex;justify-content:space-between;align-items:baseline;margin-bottom:10px;
+}
+.slider-value{
+  font-family:'JetBrains Mono',monospace;
+  font-weight:700;color:var(--teal);font-size:15px;
+}
+input[type=range]{
+  width:100%;
+  -webkit-appearance:none;
+  height:5px;
+  border-radius:3px;
+  background:var(--border);
+  outline:none;
+}
+input[type=range]::-webkit-slider-thumb{
+  -webkit-appearance:none;
+  width:20px;height:20px;border-radius:50%;
+  background:var(--teal);
+  cursor:pointer;
+  border:3px solid var(--bg-card);
+  box-shadow:0 2px 6px rgba(0,0,0,.4);
+}
+.slider-marks{
+  display:flex;justify-content:space-between;
+  font-size:10px;color:var(--ink-faint);margin-top:4px;
+}
+
+.toggle{
+  width:42px;height:24px;
+  background:var(--border);
+  border-radius:14px;
+  position:relative;
+  cursor:pointer;
+  flex-shrink:0;
+  transition:background .15s;
+}
+.toggle.on{background:var(--teal);}
+.toggle-knob{
+  position:absolute;
+  top:2px;right:2px;
+  width:20px;height:20px;
+  background:#fff;
+  border-radius:50%;
+  transition:transform .15s;
+}
+.toggle.on .toggle-knob{transform:translateX(-18px);}
+
+/* ===== onboarding steps ===== */
+.ob-steps{counter-reset:step;}
+.ob-step{
+  display:flex;
+  gap:12px;
+  padding:14px 0;
+  border-bottom:1px solid var(--border);
+}
+.ob-step:last-child{border-bottom:none;}
+.ob-num{
+  counter-increment:step;
+  width:28px;height:28px;flex-shrink:0;
+  border-radius:50%;
+  background:var(--bg-card-2);
+  border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:12px;font-weight:700;color:var(--teal);
+}
+.ob-num::before{content:counter(step);}
+.ob-body{flex:1;}
+.ob-title{font-size:13.5px;font-weight:700;margin-bottom:3px;}
+.ob-desc{font-size:12px;color:var(--ink-dim);line-height:1.6;}
+.ob-critical{
+  background:rgba(212,166,42,.1);
+  border:1px solid rgba(212,166,42,.35);
+  border-radius:10px;
+  padding:9px 11px;
+  font-size:11px;
+  color:#F0C274;
+  margin-top:7px;
+  font-weight:600;
+  line-height:1.6;
+}
+
+
+/* ===== pricing cards ===== */
+.price-grid{display:flex;flex-direction:column;gap:10px;}
+.price-card{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:16px;
+  padding:16px 18px;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+}
+.price-card.featured{
+  border:1.5px solid var(--teal);
+  background:linear-gradient(135deg, rgba(19,168,138,.1), var(--bg-card));
+}
+.price-name{font-size:14px;font-weight:700;}
+.price-badge{
+  display:inline-block;
+  background:var(--teal);
+  color:#07251F;
+  font-size:9.5px;
+  font-weight:800;
+  padding:2px 7px;
+  border-radius:6px;
+  margin-right:6px;
+}
+.price-desc{font-size:11px;color:var(--ink-faint);margin-top:3px;}
+.price-amount{
+  font-family:'JetBrains Mono',monospace;
+  font-size:18px;font-weight:700;color:var(--teal);
+  text-align:left;
+}
+.price-period{font-size:10px;color:var(--ink-faint);display:block;margin-top:1px;}
+
+.payment-methods{display:flex;flex-direction:column;gap:8px;margin-top:4px;}
+.pm-row{
+  display:flex;align-items:center;gap:10px;
+  background:var(--bg-card-2);
+  border-radius:12px;
+  padding:11px 13px;
+}
+.pm-icon{
+  width:34px;height:34px;border-radius:9px;
+  display:flex;align-items:center;justify-content:center;
+  font-size:14px;font-weight:800;flex-shrink:0;
+  color:#fff;
+}
+.pm-name{font-size:12.5px;font-weight:700;}
+.pm-status{font-size:10px;color:var(--ink-faint);margin-top:1px;}
+
+/* ===== log table ===== */
+.log-row{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:11px 0;
+  border-bottom:1px solid var(--border);
+}
+.log-row:last-child{border-bottom:none;}
+.log-left{display:flex;align-items:center;gap:10px;}
+.log-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0;}
+.log-dot.good{background:var(--green);}
+.log-dot.ok{background:var(--amber);}
+.log-dot.bad{background:var(--red);}
+.log-dist{font-size:12.5px;font-weight:600;}
+.log-time{font-size:10.5px;color:var(--ink-faint);margin-top:1px;}
+.log-right{text-align:left;}
+.log-price{font-family:'JetBrains Mono',monospace;font-size:13px;font-weight:700;}
+.log-perkm{font-size:10.5px;color:var(--ink-faint);margin-top:1px;}
+
+.summary-strip{
+  display:grid;
+  grid-template-columns:1fr 1fr 1fr;
+  gap:8px;
+  margin-bottom:14px;
+}
+.summary-box{
+  background:var(--bg-card);
+  border:1px solid var(--border);
+  border-radius:14px;
+  padding:12px 8px;
+  text-align:center;
+}
+.summary-num{font-family:'JetBrains Mono',monospace;font-size:16px;font-weight:700;color:var(--teal);}
+.summary-label{font-size:9.5px;color:var(--ink-faint);margin-top:4px;}
+
+/* ===== legend / annotation ===== */
+.annotate{
+  display:flex;
+  gap:8px;
+  align-items:flex-start;
+  background:rgba(19,168,138,.08);
+  border:1px solid rgba(19,168,138,.3);
+  border-radius:12px;
+  padding:11px 13px;
+  font-size:11.5px;
+  color:#8FE0C9;
+  line-height:1.6;
+  margin-bottom:14px;
+}
+.annotate b{color:#fff;}
+.annotate.warn{
+  background:rgba(226,85,85,.08);
+  border-color:rgba(226,85,85,.3);
+  color:#FFB3B3;
+}
+.annotate.warn b{color:#fff;}
+
+.pill-row{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;}
+.state-pill{
+  flex:1;
+  min-width:0;
+  text-align:center;
+  padding:8px 6px;
+  border-radius:10px;
+  font-size:11px;
+  font-weight:700;
+  cursor:pointer;
+  border:1px solid var(--border);
+  background:var(--bg-card);
+  color:var(--ink-dim);
+  transition:all .15s;
+}
+.state-pill.active{
+  background:var(--teal);
+  border-color:var(--teal);
+  color:#07251F;
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+  <div class="topbar">
+    <div class="brand">
+      <div class="brand-mark">SD</div>
+      <div>
+        <div class="brand-name">Super Driver</div>
+        <div class="brand-sub">نموذج تصميم تفاعلي — المرحلة ٢</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="tabs" id="tabs">
+    <button class="tab-btn active" data-screen="overlay">النافذة العائمة</button>
+    <button class="tab-btn" data-screen="onboarding">الإعداد الأولي</button>
+    <button class="tab-btn" data-screen="settings">الإعدادات</button>
+    <button class="tab-btn" data-screen="subscription">الاشتراك والدفع</button>
+    <button class="tab-btn" data-screen="log">سجل الرحلات</button>
+  </div>
+
+  <!-- ===================== SCREEN 1: OVERLAY ===================== -->
+  <div class="screen active" id="screen-overlay">
+    <p class="section-label">◆ شكل النافذة العائمة فوق شاشة أوبر</p>
+    <p class="section-note">المحاكاة دي مبنية على الصور الحقيقية اللي بعتها — لاحظ إن النافذة دايماً أعلى الشاشة، بعيدة تماماً عن زر "تطابق" في الأسفل. اضغط على الأزرار تحت عشان تشوف الحالات التلاتة.</p>
+
+    <div class="pill-row" id="statePills">
+      <div class="state-pill active" data-state="good">مناسبة</div>
+      <div class="state-pill" data-state="ok">قريبة من المقبول</div>
+      <div class="state-pill" data-state="bad">غير مناسبة</div>
+    </div>
+
+    <div class="phone">
+      <div class="phone-notch"></div>
+      <div class="phone-screen">
+        <div class="phone-statusbar">
+          <span>11:52</span>
+          <span>●●● 4G 🔋40%</span>
+        </div>
+
+        <div class="fakemap">
+          <svg viewBox="0 0 400 300" preserveAspectRatio="none">
+            <path d="M0,220 C80,200 140,160 200,150 C260,140 320,90 400,70" stroke="#B9C4B5" stroke-width="10" fill="none"/>
+            <path d="M0,220 C80,200 140,160 200,150 C260,140 320,90 400,70" stroke="#2b2b2b" stroke-width="2.5" fill="none" stroke-dasharray="1 0"/>
+            <path d="M40,0 L40,300 M160,0 L170,300 M300,0 L280,300" stroke="#CFD8CC" stroke-width="3"/>
+          </svg>
+          <div class="pin" style="top:62%;left:12%;"></div>
+          <div class="pin-dest" style="top:18%;left:85%;"></div>
+
+          <!-- the overlay itself -->
+          <div class="sd-overlay" id="overlayBadge">
+            <div class="sd-overlay-badge">SD</div>
+            <div class="sd-dot"></div>
+            <div class="sd-overlay-text">
+              <div class="sd-overlay-price" id="overlayPrice">٧٫٥ ج.م/كم</div>
+              <div class="sd-overlay-label" id="overlayLabel">مناسبة للقبول</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="uber-card">
+          <div class="uber-card-top">
+            <span class="uber-x-pill">UberX Saver</span>
+          </div>
+          <div class="uber-price">٣٦٠٫٢٣ ج.م.</div>
+          <div class="uber-meta-row">
+            <span class="uber-meta-chip">★ 4.60</span>
+            <span class="uber-meta-chip">صافي رسوم الخدمة</span>
+            <span class="uber-meta-chip">الدفع النقدي</span>
+          </div>
+          <div class="uber-divider"></div>
+          <div class="uber-line dim">على بُعد 11 د (5.0 كلم)</div>
+          <div class="uber-line dim">شارع الإمام أبو داود, بدر</div>
+          <div class="uber-line">مشوار لمدة 42 د (لمسافة 43.3 كلم)</div>
+          <div class="uber-line dim">طريق المطار, قسم النزهة</div>
+          <div class="uber-btn">تطابق</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotate">
+      <span>↳</span>
+      <span><b>قاعدة تصميم ثابتة:</b> النافذة لا تلمس أبداً المنطقة اللي فيها زر "تطابق"/"اقبل" أو السعر الرئيسي. السائق يقدر يسحبها لمكان تاني يدوياً لو حابب.</span>
+    </div>
+
+    <div class="card">
+      <p class="card-title">التفاصيل عند الضغط على النافذة</p>
+      <p class="card-sub">ضغطة واحدة على النافذة العائمة تفتح شريط سفلي صغير بالتفاصيل الكاملة — من غير ما يغطي زرار القبول برضه.</p>
+      <div class="sd-stat-grid">
+        <div class="sd-stat">
+          <div class="sd-stat-num">٨٫٣</div>
+          <div class="sd-stat-label">ج.م/كم — المشوار فقط</div>
+        </div>
+        <div class="sd-stat">
+          <div class="sd-stat-num">٧٫٥</div>
+          <div class="sd-stat-label">ج.م/كم — شامل الوصول</div>
+        </div>
+        <div class="sd-stat">
+          <div class="sd-stat-num">٤٨٫٣</div>
+          <div class="sd-stat-label">كم — المسافة الكلية</div>
+        </div>
+        <div class="sd-stat">
+          <div class="sd-stat-num">٣٦٠</div>
+          <div class="sd-stat-label">ج.م — سعر الرحلة</div>
+        </div>
+      </div>
+      <div class="sd-verdict good">مناسبة — أعلى من حدك الأدنى (٦ ج.م/كم)</div>
+    </div>
+  </div>
+
+  <!-- ===================== SCREEN 2: ONBOARDING ===================== -->
+  <div class="screen" id="screen-onboarding">
+    <p class="section-label">◆ رحلة الإعداد الأولى</p>
+    <p class="section-note">خطوتين إلزاميتين محتاجين موافقة يدوية من السائق على مستوى نظام أندرويد — التطبيق مينفعش يفعّلهم تلقائياً.</p>
+
+    <div class="card">
+      <div class="ob-steps">
+        <div class="ob-step">
+          <div class="ob-num"></div>
+          <div class="ob-body">
+            <div class="ob-title">تفعيل خدمة "قراءة الشاشة"</div>
+            <div class="ob-desc">هنوديك على شاشة إعدادات أندرويد مباشرة، وتفعّل Super Driver من قائمة Accessibility.</div>
+            <div class="ob-critical">⚠ من غير الخطوة دي التطبيق مش هيقدر يقرأ تفاصيل الرحلة خالص.</div>
+          </div>
+        </div>
+        <div class="ob-step">
+          <div class="ob-num"></div>
+          <div class="ob-body">
+            <div class="ob-title">السماح بالعرض فوق التطبيقات الأخرى</div>
+            <div class="ob-desc">دي الصلاحية اللي بتخلي النافذة العائمة تظهر فوق شاشة أوبر. هنوريك بالظبط فين الزرار في إعدادات جهازك.</div>
+            <div class="ob-critical">⚠ معظم المستخدمين بيدوروا كتير على الإعداد ده — عندنا شرح مصوّر خطوة بخطوة.</div>
+          </div>
+        </div>
+        <div class="ob-step">
+          <div class="ob-num"></div>
+          <div class="ob-body">
+            <div class="ob-title">تحديد الحد الأدنى لسعر الكيلومتر</div>
+            <div class="ob-desc">رقم بسيط تحدده بنفسك (مثال: ٦ ج.م/كم) — وعليه هيتلون كل طلب رحلة جديد.</div>
+          </div>
+        </div>
+        <div class="ob-step">
+          <div class="ob-num"></div>
+          <div class="ob-body">
+            <div class="ob-title">بدء الفترة التجريبية</div>
+            <div class="ob-desc">تفعيل تلقائي فور إتمام الخطوات السابقة — من غير أي بيانات دفع مطلوبة في البداية.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotate warn">
+      <span>⚠</span>
+      <span><b>قرار من مراجعة أحمد:</b> لو أي صلاحية من الاتنين مش مفعّلة، التطبيق يوقف بوضوح ويوضح للسائق أي خطوة ناقصة — مفيش عمل جزئي بصلاحية واحدة بس.</span>
+    </div>
+  </div>
+
+  <!-- ===================== SCREEN 3: SETTINGS ===================== -->
+  <div class="screen" id="screen-settings">
+    <p class="section-label">◆ شاشة الإعدادات</p>
+    <p class="section-note">تحكم السائق في حدود القرار — مش التطبيق هو اللي بيقرر، بس بيوضح الأرقام.</p>
+
+    <div class="card">
+      <p class="card-title">حدود التقييم</p>
+      <div class="slider-row">
+        <div class="slider-head">
+          <span style="font-size:13px;color:var(--ink-dim);">الحد الأدنى — مناسبة</span>
+          <span class="slider-value">٦٫٠ ج.م/كم</span>
+        </div>
+        <input type="range" min="3" max="12" step="0.5" value="6">
+        <div class="slider-marks"><span>٣</span><span>١٢</span></div>
+      </div>
+      <div class="slider-row">
+        <div class="slider-head">
+          <span style="font-size:13px;color:var(--ink-dim);">الحد الأدنى — قريبة من المقبول</span>
+          <span class="slider-value">٤٫٥ ج.م/كم</span>
+        </div>
+        <input type="range" min="2" max="10" step="0.5" value="4.5">
+        <div class="slider-marks"><span>٢</span><span>١٠</span></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">طريقة الحساب</p>
+      <div class="setting-row">
+        <div class="setting-row-text">
+          <span class="setting-row-title">سعر/كم للمشوار فقط</span>
+          <span class="setting-row-hint">السعر ÷ مسافة الرحلة المدفوعة</span>
+        </div>
+        <div class="toggle on"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-row-text">
+          <span class="setting-row-title">سعر/كم شامل الوصول</span>
+          <span class="setting-row-hint">السعر ÷ (الوصول + المشوار)</span>
+        </div>
+        <div class="toggle on"><div class="toggle-knob"></div></div>
+      </div>
+    </div>
+
+    <div class="card">
+      <p class="card-title">عام</p>
+      <div class="setting-row">
+        <div class="setting-row-text">
+          <span class="setting-row-title">اهتزاز عند رحلة مناسبة</span>
+        </div>
+        <div class="toggle on"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-row-text">
+          <span class="setting-row-title">حفظ سجل الرحلات محلياً</span>
+        </div>
+        <div class="toggle on"><div class="toggle-knob"></div></div>
+      </div>
+      <div class="setting-row">
+        <div class="setting-row-text">
+          <span class="setting-row-title">موقع النافذة العائمة</span>
+          <span class="setting-row-hint">أعلى يسار الشاشة (افتراضي)</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ===================== SCREEN 4: SUBSCRIPTION ===================== -->
+  <div class="screen" id="screen-subscription">
+    <p class="section-label">◆ الاشتراك وطرق الدفع</p>
+    <p class="section-note">حالة الاشتراك بتتحقق دايماً من السيرفر (Supabase) — مش من الجهاز، حسب القرار المعتمد في مرحلة التخطيط.</p>
+
+    <div class="price-grid">
+      <div class="price-card">
+        <div>
+          <div class="price-name">تجريبي</div>
+          <div class="price-desc">٧ أيام — كل المزايا بدون دفع</div>
+        </div>
+        <div class="price-amount">مجاني</div>
+      </div>
+      <div class="price-card featured">
+        <div>
+          <span class="price-badge">الأوفر</span>
+          <div class="price-name" style="display:inline;">سنوي</div>
+          <div class="price-desc">بدل ٦٠٠ ج.م — خصم ٪٤</div>
+        </div>
+        <div>
+          <div class="price-amount">٥٧٥ ج.م</div>
+          <span class="price-period">سنوياً</span>
+        </div>
+      </div>
+      <div class="price-card">
+        <div>
+          <div class="price-name">شهري</div>
+          <div class="price-desc">يتجدد تلقائياً كل شهر</div>
+        </div>
+        <div>
+          <div class="price-amount">٥٠ ج.م</div>
+          <span class="price-period">شهرياً</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="card" style="margin-top:14px;">
+      <p class="card-title">طرق الدفع المتاحة</p>
+      <p class="card-sub">الثلاث طرق شغالة بغض النظر عن قناة توزيع التطبيق — حسب مراجعة أحمد.</p>
+      <div class="payment-methods">
+        <div class="pm-row">
+          <div class="pm-icon" style="background:#E2136E;">VF</div>
+          <div>
+            <div class="pm-name">فودافون كاش</div>
+            <div class="pm-status">تفعيل يدوي بعد رفع إيصال التحويل</div>
+          </div>
+        </div>
+        <div class="pm-row">
+          <div class="pm-icon" style="background:#1E2A5E;">PM</div>
+          <div>
+            <div class="pm-name">Paymob</div>
+            <div class="pm-status">فيزا / ماستركارد / محافظ إلكترونية — آلي</div>
+          </div>
+        </div>
+        <div class="pm-row">
+          <div class="pm-icon" style="background:#34A853;">GP</div>
+          <div>
+            <div class="pm-name">Google Play Billing</div>
+            <div class="pm-status">يُفعَّل تلقائياً لو التطبيق منشور على المتجر</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="annotate">
+      <span>↳</span>
+      <span><b>مصدر الحقيقة الوحيد:</b> أي عملية دفع — حتى اليدوية بفودافون كاش — بتحدّث حالة الاشتراك في Supabase أولاً، والتطبيق بيقرأ من هناك فقط.</span>
+    </div>
+  </div>
+
+  <!-- ===================== SCREEN 5: LOG ===================== -->
+  <div class="screen" id="screen-log">
+    <p class="section-label">◆ سجل الرحلات المعروضة</p>
+    <p class="section-note">نظرة سريعة على أداء اليوم — مش تحليل تفصيلي (ده مؤجل لمراحل لاحقة حسب مستند المواصفات).</p>
+
+    <div class="summary-strip">
+      <div class="summary-box">
+        <div class="summary-num">١٤</div>
+        <div class="summary-label">رحلة معروضة</div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-num">٧٫١</div>
+        <div class="summary-label">متوسط ج.م/كم</div>
+      </div>
+      <div class="summary-box">
+        <div class="summary-num">٩</div>
+        <div class="summary-label">رحلة مناسبة</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="log-row">
+        <div class="log-left">
+          <div class="log-dot good"></div>
+          <div>
+            <div class="log-dist">43.3 كم</div>
+            <div class="log-time">11:52 ص</div>
+          </div>
+        </div>
+        <div class="log-right">
+          <div class="log-price">٣٦٠٫٢ ج.م</div>
+          <div class="log-perkm">٨٫٣ ج.م/كم</div>
+        </div>
+      </div>
+      <div class="log-row">
+        <div class="log-left">
+          <div class="log-dot ok"></div>
+          <div>
+            <div class="log-dist">6.4 كم</div>
+            <div class="log-time">11:20 ص</div>
+          </div>
+        </div>
+        <div class="log-right">
+          <div class="log-price">٦٤٫٨ ج.م</div>
+          <div class="log-perkm">٥٫١ ج.م/كم</div>
+        </div>
+      </div>
+      <div class="log-row">
+        <div class="log-left">
+          <div class="log-dot bad"></div>
+          <div>
+            <div class="log-dist">10.3 كم</div>
+            <div class="log-time">10:55 ص</div>
+          </div>
+        </div>
+        <div class="log-right">
+          <div class="log-price">١٢٣٫٨ ج.م</div>
+          <div class="log-perkm">٣٫٤ ج.م/كم</div>
+        </div>
+      </div>
+      <div class="log-row">
+        <div class="log-left">
+          <div class="log-dot good"></div>
+          <div>
+            <div class="log-dist">1.3 كم</div>
+            <div class="log-time">10:30 ص</div>
+          </div>
+        </div>
+        <div class="log-right">
+          <div class="log-price">٤٣٫٨ ج.م</div>
+          <div class="log-perkm">٣٣٫٧ ج.م/كم</div>
+        </div>
+      </div>
+      <div class="log-row">
+        <div class="log-left">
+          <div class="log-dot ok"></div>
+          <div>
+            <div class="log-dist">6.9 كم</div>
+            <div class="log-time">09:58 ص</div>
+          </div>
+        </div>
+        <div class="log-right">
+          <div class="log-price">٨٠٫٧ ج.م</div>
+          <div class="log-perkm">٥٫٠ ج.م/كم</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+const tabs = document.querySelectorAll('.tab-btn');
+const screens = document.querySelectorAll('.screen');
+tabs.forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    tabs.forEach(b=>b.classList.remove('active'));
+    screens.forEach(s=>s.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('screen-'+btn.dataset.screen).classList.add('active');
+  });
+});
+
+const states = {
+  good:{cls:'good', price:'٧٫٥ ج.م/كم', label:'مناسبة للقبول'},
+  ok:{cls:'ok', price:'٥٫١ ج.م/كم', label:'قريبة من المقبول'},
+  bad:{cls:'bad', price:'٣٫٤ ج.م/كم', label:'غير مناسبة'}
+};
+const pills = document.querySelectorAll('.state-pill');
+const overlay = document.getElementById('overlayBadge');
+const overlayPrice = document.getElementById('overlayPrice');
+const overlayLabel = document.getElementById('overlayLabel');
+
+pills.forEach(p=>{
+  p.addEventListener('click', ()=>{
+    pills.forEach(x=>x.classList.remove('active'));
+    p.classList.add('active');
+    const s = states[p.dataset.state];
+    overlay.classList.remove('good','ok','bad');
+    overlay.classList.add(s.cls);
+    overlayPrice.textContent = s.price;
+    overlayLabel.textContent = s.label;
+  });
+});
+</script>
+</body>
+</html>
