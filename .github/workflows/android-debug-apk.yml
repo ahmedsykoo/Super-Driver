@@ -26,11 +26,13 @@ jobs:
           distribution: temurin
           java-version: "17"
 
-      - name: Set up Android SDK
-        uses: android-actions/setup-android@v3
-
       - name: Install SDK platform and build-tools
-        run: sdkmanager "platforms;android-34" "build-tools;34.0.0"
+        # ubuntu-latest already ships an Android SDK (ANDROID_HOME is preset) — using it
+        # directly instead of android-actions/setup-android@v3, which fails trying to
+        # install the long-removed legacy "tools" package.
+        run: |
+          yes | "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" --licenses > /dev/null || true
+          "$ANDROID_HOME/cmdline-tools/latest/bin/sdkmanager" "platforms;android-34" "build-tools;34.0.0"
 
       - name: Write Supabase credentials
         # Pulled from repo secrets (Settings -> Secrets and variables -> Actions),
