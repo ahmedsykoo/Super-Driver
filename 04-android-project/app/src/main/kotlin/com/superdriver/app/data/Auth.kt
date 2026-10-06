@@ -22,8 +22,10 @@ sealed interface AuthResult {
     data class Error(val message: String) : AuthResult
 }
 
-private data class Verified(val accessToken: String, val refreshToken: String, val userId: String)
-private sealed interface VerifyResult {
+// Not private: SupabaseAuthApi.verifyEmailCode is a public member and can't expose a
+// narrower type than itself (that's what broke the build — a real Kotlin visibility error).
+data class Verified(val accessToken: String, val refreshToken: String, val userId: String)
+sealed interface VerifyResult {
     data class Ok(val v: Verified) : VerifyResult
     data class Error(val message: String) : VerifyResult
 }
