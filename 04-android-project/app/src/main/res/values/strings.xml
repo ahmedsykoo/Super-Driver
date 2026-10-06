@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Super Driver</string>
+    <string name="a11y_description">يقرأ شاشة طلب الرحلة في تطبيق أوبر للسائق ويعرض سعر الكيلومتر فقط. لا يضغط ولا يتفاعل مع أوبر.</string>
+
+    <string name="verdict_good">مناسبة</string>
+    <string name="verdict_near">قريبة</string>
+    <string name="verdict_bad">غير مناسبة</string>
+    <string name="overlay_unreadable">تعذّر القراءة</string>
+    <string name="overlay_value">%1$s ج.م/كم</string>
+
+    <string name="common_back">رجوع</string>
+
+    <!-- Main -->
+    <string name="main_status_on">شغّال: بيراقب شاشة طلب أوبر</string>
+    <string name="main_status_off">متوقف: الإعداد مش مكتمل</string>
+    <string name="main_finish_setup">إكمال الإعداد</string>
+    <string name="main_settings">الإعدادات</string>
+    <string name="main_history">سجل الطلبات</string>
+
+    <!-- Onboarding -->
+    <string name="onb_title">الإعداد الأولي</string>
+    <string name="onb_privacy_title">قبل ما نبدأ: الخصوصية</string>
+    <string name="onb_privacy_body">Super Driver بيستخدم خدمة «سهولة الوصول» (Accessibility) في أندرويد علشان يقرأ شاشة طلب الرحلة في تطبيق أوبر للسائق فقط، ويحسب سعر الكيلومتر.\n\n• بيقرأ السعر والمسافتين الظاهرين على شاشة الطلب، والمعالجة بتتم على جهازك.\n• لا يسجّل فيديو ولا يلتقط صور للشاشة. ممكن أندرويد يعرض رسالة نظام فيها عبارة زي «مشاركة الشاشة»، ودي رسالة النظام نفسها وليست تسجيلاً.\n• بيشتغل مع تطبيق أوبر للسائق فقط، ويتجاهل أي تطبيق تاني.\n• لا يحفظ كلمات سر ولا بيانات سرية، ولا يرسل بيانات رحلاتك لأي سيرفر.\n• لا يضغط على أي زر في أوبر ولا يتحكم فيه؛ بيعرض معلومة بس.\n\nلو موافق، اضغط «موافق وأكمل».</string>
+    <string name="onb_accept">موافق وأكمل</string>
+    <string name="onb_a11y_title">تفعيل خدمة سهولة الوصول</string>
+    <string name="onb_a11y_body">اضغط الزر، وفي الشاشة اللي هتفتح اختار «Super Driver» وفعّله، ووافق على رسالة التحذير. بعدها ارجع للتطبيق.</string>
+    <string name="onb_open_a11y">فتح إعدادات سهولة الوصول</string>
+    <string name="onb_done_title">تمام، الإعداد خلص</string>
+    <string name="onb_done_body">افتح تطبيق أوبر للسائق، وهتظهر النافذة العائمة مع كل طلب رحلة.</string>
+    <string name="onb_continue">متابعة</string>
+
+    <!-- Settings -->
+    <string name="set_title">الإعدادات</string>
+    <string name="set_good">حد «مناسبة»: من %1$s ج.م/كم</string>
+    <string name="set_near">حد «قريبة»: من %1$s ج.م/كم</string>
+    <string name="set_basis">أساس الحساب</string>
+    <string name="set_basis_inclusive">شامل (السعر ÷ مسافة الالتقاط + المشوار)</string>
+    <string name="set_basis_trip">المشوار فقط (السعر ÷ مسافة المشوار)</string>
+    <string name="set_vibrate">اهتزاز عند ظهور طلب</string>
+
+    <!-- History -->
+    <string name="hist_title">سجل الطلبات</string>
+    <string name="hist_empty">مفيش طلبات متسجلة لسه.</string>
+    <string name="hist_clear">مسح السجل</string>
+    <string name="hist_clear_confirm">تمسح كل السجل؟</string>
+    <string name="hist_yes">مسح</string>
+    <string name="hist_no">إلغاء</string>
+    <string name="hist_row_value">%1$s ج.م/كم · %2$s</string>
+    <string name="hist_row_detail">%1$s · السعر %2$s ج.م · التقاط %3$s كم · مشوار %4$s كم</string>
+</resources>

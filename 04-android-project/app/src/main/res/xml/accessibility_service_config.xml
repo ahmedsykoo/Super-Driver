@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+    Read-only service: no canPerformGestures, no performAction anywhere in the code.
+    packageNames must match UberWatcherService.UBER_PACKAGE. The package is the handoff's expected value
+    and is NOT yet verified on a device: adb shell pm list packages | grep uber
+-->
+<accessibility-service xmlns:android="http://schemas.android.com/apk/res/android"
+    android:accessibilityEventTypes="typeWindowContentChanged|typeWindowStateChanged"
+    android:accessibilityFeedbackType="feedbackGeneric"
+    android:accessibilityFlags="flagReportViewIds|flagIncludeNotImportantViews"
+    android:canRetrieveWindowContent="true"
+    android:description="@string/a11y_description"
+    android:notificationTimeout="100"
+    android:packageNames="com.ubercab.driver" />
