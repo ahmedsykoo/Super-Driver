@@ -13,20 +13,22 @@ data class Settings(
     val basis: Basis,
     val vibrate: Boolean,
     val privacyAccepted: Boolean,
+    /** In-app only, no OS permission behind it — see OnboardingActivity's step 1 (Captain Pro reference). */
+    val autoDetectEnabled: Boolean,
 ) {
     companion object {
-        val DEFAULT = Settings(Thresholds.DEFAULT, Basis.INCLUSIVE, vibrate = true, privacyAccepted = false)
+        val DEFAULT = Settings(Thresholds.DEFAULT, Basis.INCLUSIVE, vibrate = true, privacyAccepted = false, autoDetectEnabled = false)
     }
 }
 
 private fun SettingsEntity.toSettings(): Settings = try {
-    Settings(Thresholds(goodThreshold, nearThreshold), Basis.valueOf(basis), vibrate, privacyAccepted)
+    Settings(Thresholds(goodThreshold, nearThreshold), Basis.valueOf(basis), vibrate, privacyAccepted, autoDetectEnabled)
 } catch (e: IllegalArgumentException) {
-    Settings.DEFAULT.copy(vibrate = vibrate, privacyAccepted = privacyAccepted) // corrupted row: fall back to defaults
+    Settings.DEFAULT.copy(vibrate = vibrate, privacyAccepted = privacyAccepted, autoDetectEnabled = autoDetectEnabled) // corrupted row: fall back to defaults
 }
 
 private fun Settings.toEntity() =
-    SettingsEntity(1, thresholds.good, thresholds.near, basis.name, vibrate, privacyAccepted)
+    SettingsEntity(1, thresholds.good, thresholds.near, basis.name, vibrate, privacyAccepted, autoDetectEnabled)
 
 class SettingsRepository(private val dao: SettingsDao, scope: CoroutineScope) {
     /** In-memory copy for the service; starts at defaults (privacy not accepted) until the DB is read. */

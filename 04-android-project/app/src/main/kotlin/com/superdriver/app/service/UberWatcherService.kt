@@ -72,7 +72,7 @@ class UberWatcherService : AccessibilityService() {
 
     private fun evaluate() {
         val settings = graph.settingsRepo.settings.value
-        if (!settings.privacyAccepted) { hideBadge(); return } // no partial work before onboarding
+        if (!settings.privacyAccepted || !settings.autoDetectEnabled) { hideBadge(); return } // no partial work before onboarding
 
         val root = rootInActiveWindow
         if (root == null) { hideBadge(); return }

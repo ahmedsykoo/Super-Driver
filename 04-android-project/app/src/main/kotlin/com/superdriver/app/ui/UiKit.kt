@@ -314,3 +314,69 @@ fun Context.formNote(initial: CharSequence = "", color: Int = Theme.RED) = TextV
     setPadding(0, dp(2), 0, dp(6))
     visibility = if (initial.isEmpty()) View.GONE else View.VISIBLE
 }
+
+/**
+ * "التقدم n/total" + a row of n dots (green = done, amber = current, gray = not reached yet) — the
+ * permissions-checklist header, modeled on the Captain Pro reference screenshots Ahmed sent.
+ */
+fun Context.checklistProgress(done: Int, total: Int): LinearLayout {
+    val col = LinearLayout(this).apply {
+        orientation = LinearLayout.VERTICAL
+        setPadding(0, 0, 0, dp(14))
+    }
+    col.addView(TextView(this).apply {
+        text = "التقدم $done/$total"
+        setTextColor(Theme.AMBER)
+        setTypeface(typeface, Typeface.BOLD)
+        textSize = 12f
+        setPadding(0, 0, 0, dp(8))
+    })
+    val dots = LinearLayout(this).apply { orientation = LinearLayout.HORIZONTAL }
+    for (i in 0 until total) {
+        val color = when { i < done -> Theme.GREEN; i == done -> Theme.AMBER; else -> Theme.INK_FAINT }
+        dots.addView(
+            View(this@checklistProgress).apply {
+                background = GradientDrawable().apply { shape = GradientDrawable.OVAL; setColor(color) }
+                layoutParams = LinearLayout.LayoutParams(dp(12), dp(12)).apply { if (i > 0) marginStart = dp(6) }
+            }
+        )
+    }
+    col.addView(dots)
+    return col
+}
+
+/** One item in the permissions checklist: a ✓/✕ status line, its explanation, and an optional action button. */
+fun Context.checklistItem(title: CharSequence, done: Boolean, hint: CharSequence? = null, actionLabel: CharSequence? = null, onAction: (() -> Unit)? = null) = LinearLayout(this).apply {
+    orientation = LinearLayout.VERTICAL
+    setPadding(0, dp(10), 0, dp(10))
+    addView(
+        LinearLayout(this@checklistItem).apply {
+            orientation = LinearLayout.HORIZONTAL
+            gravity = Gravity.CENTER_VERTICAL
+            addView(TextView(this@checklistItem).apply {
+                text = if (done) "✓" else "✕"
+                setTextColor(if (done) Theme.GREEN else Theme.RED)
+                setTypeface(typeface, Typeface.BOLD)
+                textSize = 14f
+                setPadding(0, 0, dp(8), 0)
+            })
+            addView(TextView(this@checklistItem).apply { text = title; setTextColor(Theme.INK); textSize = 13.5f; setTypeface(typeface, Typeface.BOLD) })
+        }
+    )
+    if (hint != null) addView(TextView(this@checklistItem).apply { text = hint; setTextColor(Theme.INK_FAINT); textSize = 11f; setPadding(dp(22), dp(4), 0, 0) })
+    if (!done && actionLabel != null && onAction != null) {
+        addView(
+            TextView(this@checklistItem).apply {
+                text = actionLabel
+                setTextColor(Theme.ON_TEAL)
+                setTypeface(typeface, Typeface.BOLD)
+                textSize = 12.5f
+                gravity = Gravity.CENTER
+                background = GradientDrawable().apply { cornerRadius = dp(12).toFloat(); setColor(Theme.AMBER) }
+                setPadding(dp(14), dp(10), dp(14), dp(10))
+                layoutParams = LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT, ViewGroup.LayoutParams.WRAP_CONTENT).apply { topMargin = dp(10) }
+                setOnClickListener { onAction() }
+            }
+        )
+    }
+}

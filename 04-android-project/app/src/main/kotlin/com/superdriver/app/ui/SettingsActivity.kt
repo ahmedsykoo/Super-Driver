@@ -50,6 +50,10 @@ class SettingsActivity : BaseActivity() {
                 getString(R.string.set_vibrate),
                 control = styledSwitch(s.vibrate) { on -> save { it.copy(vibrate = on) } },
             )
+            val autoDetect = settingRow(
+                getString(R.string.onb_step1_title),
+                control = styledSwitch(s.autoDetectEnabled) { on -> save { it.copy(autoDetectEnabled = on) } },
+            )
 
             val page = setPageWithNav(
                 NavTab.SETTINGS,
@@ -60,7 +64,7 @@ class SettingsActivity : BaseActivity() {
                 sectionLabel("أساس الحساب"),
                 card(group),
                 sectionLabel("عام"),
-                card(vibrate),
+                card(vibrate, autoDetect),
             )
             page.addView(outlineButton(getString(R.string.set_logout)) {
                 scope.launch {

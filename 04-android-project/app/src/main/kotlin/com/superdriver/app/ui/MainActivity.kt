@@ -24,7 +24,8 @@ class MainActivity : BaseActivity() {
                 return@launch
             }
 
-            val ready = appGraph.settingsRepo.current().privacyAccepted && isWatcherServiceEnabled()
+            val settings = appGraph.settingsRepo.current()
+            val ready = settings.privacyAccepted && settings.autoDetectEnabled && isWatcherServiceEnabled()
             val statusColor = if (ready) Theme.GREEN else Theme.RED
             val statusText = getString(if (ready) R.string.main_status_on else R.string.main_status_off)
 

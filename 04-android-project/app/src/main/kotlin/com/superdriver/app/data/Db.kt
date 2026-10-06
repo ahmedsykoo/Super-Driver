@@ -25,6 +25,7 @@ data class SettingsEntity(
     val basis: String,
     val vibrate: Boolean,
     val privacyAccepted: Boolean,
+    val autoDetectEnabled: Boolean,
 )
 
 /**
